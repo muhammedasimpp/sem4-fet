@@ -1,36 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Simple Form</title>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 25px;
+      width: 320px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .toggle {
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: darkgreen;
+    }
+
+    #msg {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Registration Form</h2>
+<div class="container">
+  <h2>Registration Form</h2>
 
-<form>
-  <label>First Name:</label><br>
-  <input type="text" name="firstname" value="Muhammed"><br><br>
+  <form id="regForm">
+    <input type="text" id="firstname" placeholder="First Name">
+    <input type="text" id="lastname" placeholder="Last Name">
 
-  <label>Last Name:</label><br>
-  <input type="text" name="lastname" value="Asim"><br><br>
+    <input type="email" id="email" placeholder="Enter valid email (example@gmail.com)">
 
-  <label>Email:</label><br>
-  <input type="email" name="email"><br><br>
+    <div class="password-box">
+      <input type="password" id="password" placeholder="Password (min 6 characters)">
+      <span class="toggle" onclick="togglePassword('password')">👁️</span>
+    </div>
 
-  <label>Password:</label><br>
-  <input type="password" name="password"><br><br>
+    <div class="password-box">
+      <input type="password" id="confirm" placeholder="Confirm Password">
+      <span class="toggle" onclick="togglePassword('confirm')">👁️</span>
+    </div>
 
-  <label>Gender:</label><br>
-  <input type="radio" name="gender"> Male
-  <input type="radio" name="gender"> Female<br><br>
+    <button type="submit">Register</button>
 
-  <label>Hobbies:</label><br>
-  <input type="checkbox"> Cricket
-  <input type="checkbox"> Music
-  <input type="checkbox"> Coding<br><br>
+    <p id="msg"></p>
+  </form>
+</div>
 
-  <button type="submit">Submit</button>
-</form>
+<script>
+  function togglePassword(id) {
+    let field = document.getElementById(id);
+    field.type = field.type === "password" ? "text" : "password";
+  }
+
+  document.getElementById("regForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let firstname = document.getElementById("firstname").value.trim();
+    let lastname = document.getElementById("lastname").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let confirm = document.getElementById("confirm").value;
+    let msg = document.getElementById("msg");
+
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if (!firstname || !lastname || !email || !password || !confirm) {
+      msg.style.color = "red";
+      msg.textContent = "Please fill all fields!";
+      return;
+    }
+
+    if (!email.match(emailPattern)) {
+      msg.style.color = "red";
+      msg.textContent = "Enter a valid email!";
+      return;
+    }
+
+    if (password.length < 6) {
+      msg.style.color = "red";
+      msg.textContent = "Password must be at least 6 characters!";
+      return;
+    }
+
+    if (password !== confirm) {
+      msg.style.color = "red";
+      msg.textContent = "Passwords do not match!";
+      return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Registration successful!";
+
+    document.getElementById("regForm").reset();
+  });
+</script>
+
+</body>
+</html>
+
+
 
 </body>
 </html>
